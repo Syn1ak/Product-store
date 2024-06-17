@@ -1,0 +1,13 @@
+<div class="my-7 px-16">
+  <div class="flex items-center justify-between my-1">
+    <mat-form-field appearance="outline">
+      <mat-label>Search</mat-label>
+      <input matInput [formControl]="name" />
+    </mat-form-field>
+    <button (click)="create()" color="primary" mat-fab aria-label="Add icon">
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+  <app-products-table></app-products-table>
+</div>
+<p-toast />

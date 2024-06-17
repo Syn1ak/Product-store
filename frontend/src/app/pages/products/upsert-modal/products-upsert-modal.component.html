@@ -1,0 +1,36 @@
+<h2 mat-dialog-title>{{ title }}</h2>
+<mat-dialog-content>
+  <form class="grid grid-cols-2 gap-2" [formGroup]="productForm">
+    <app-input-form-control
+      [control]="productForm.controls.name"
+      title="Product name"
+    />
+    <app-input-form-control
+      [control]="productForm.controls.manufacturer"
+      title="Manufacturer"
+    />
+    <app-input-form-control
+      [control]="productForm.controls.description"
+      title="Description"
+    />
+    <app-input-form-control
+      [control]="productForm.controls.quantity"
+      title="Quantity"
+    />
+    <app-input-form-control
+      [control]="productForm.controls.price"
+      title="Price"
+    />
+    <app-autocomplete-form-control
+      [control]="productForm.controls.category"
+      title="Category"
+      [options]="categoriesOptions"
+    />
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button color="secondary" (click)="close()">Cancel</button>
+  <button mat-button color="primary" (click)="submit()" cdkFocusInitial>
+    Ok
+  </button>
+</mat-dialog-actions>
