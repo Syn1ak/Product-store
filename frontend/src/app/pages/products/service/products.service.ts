@@ -14,7 +14,7 @@ export class ProductsService {
       setTimeout(() => {
         observer.next(this.PRODUCTS);
         observer.complete();
-      }, 1000);
+      }, 200);
     });
     // return this.http.get<ProductDto[]>('https://dummyjson.com/products');
   }

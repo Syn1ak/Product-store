@@ -1,1 +1,13 @@
+.full-width-table {
+  width: 100%;
+  min-width: 800px;
+}
 
+.table-container {
+  overflow: hidden;
+}
+
+.table-scrolling-container {
+  overflow: auto;
+  display: block;
+}

@@ -1,32 +1,33 @@
 import { DataSource } from '@angular/cdk/collections';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { map } from 'rxjs/operators';
-import { Observable, merge } from 'rxjs';
+import { catchError, finalize, map } from 'rxjs/operators';
+import { BehaviorSubject, Observable, merge, of } from 'rxjs';
 import { ProductDto } from '../../../core/types/ProductDto';
+import { ProductsService } from '../service/products.service';
 
 export class ProductsTableDataSource extends DataSource<ProductDto> {
+  private productsSubject = new BehaviorSubject<ProductDto[]>([]);
+  private isLoadingSubject = new BehaviorSubject<boolean>(false);
+  private totalProductsSubject = new BehaviorSubject<number>(0);
+
+  public loading$ = this.isLoadingSubject.asObservable();
+  public length$ = this.totalProductsSubject.asObservable();
+
   products: ProductDto[] = [];
-  paginator: MatPaginator | undefined;
-  sort: MatSort | undefined;
 
   constructor(
-    products?: ProductDto[],
-    paginator?: MatPaginator,
-    sort?: MatSort
+    private productsService: ProductsService,
+    public paginator: MatPaginator,
+    public sort: MatSort
   ) {
     super();
-    if (products && paginator && sort) {
-      this.products = products;
-      this.paginator = paginator;
-      this.sort = sort;
-    }
   }
 
   connect(): Observable<ProductDto[]> {
     if (this.paginator && this.sort) {
       return merge(
-        this.products,
+        this.productsSubject.asObservable(),
         this.paginator.page,
         this.sort.sortChange
       ).pipe(
@@ -41,7 +42,28 @@ export class ProductsTableDataSource extends DataSource<ProductDto> {
     }
   }
 
-  disconnect(): void {}
+  disconnect(): void {
+    this.productsSubject.complete();
+    this.isLoadingSubject.complete();
+    this.totalProductsSubject.complete();
+  }
+
+  loadProducts() {
+    this.isLoadingSubject.next(true);
+    this.productsService
+      .fetchProducts()
+      .pipe(
+        catchError(() => of([])),
+        finalize(() => this.isLoadingSubject.next(false))
+      )
+      .subscribe({
+        next: (products: ProductDto[]) => {
+          this.products = products;
+          this.productsSubject.next(products);
+          this.totalProductsSubject.next(products.length);
+        },
+      });
+  }
 
   private getPagedData(data: ProductDto[]): ProductDto[] {
     if (this.paginator) {
@@ -76,10 +98,6 @@ export class ProductsTableDataSource extends DataSource<ProductDto> {
           return 0;
       }
     });
-  }
-
-  hasData(): boolean {
-    return this.products.length != 0;
   }
 }
 
