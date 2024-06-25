@@ -1,4 +1,10 @@
-import { AfterViewInit, Component, ViewChild, inject } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  OnInit,
+  ViewChild,
+  inject,
+} from '@angular/core';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTable, MatTableModule } from '@angular/material/table';
 import { TableComponent } from '../../../shared/table/table.component';
@@ -19,6 +25,7 @@ import { Subscription } from 'rxjs';
 import { InputTextModule } from 'primeng/inputtext';
 import { DropdownModule } from 'primeng/dropdown';
 import ToastService from '../../../core/services/ToastService';
+import { AutocompleteFormControlComponent } from '../../../shared/form-controls/autocomplete-form-control/autocomplete-form-control.component';
 
 @Component({
   selector: 'app-products-list',
@@ -38,15 +45,16 @@ import ToastService from '../../../core/services/ToastService';
     ToastModule,
     InputTextModule,
     DropdownModule,
+    AutocompleteFormControlComponent,
   ],
 })
-export class ProductsListComponent implements AfterViewInit {
+export class ProductsListComponent implements OnInit, AfterViewInit {
   private productsService = inject(ProductsService);
   private toast = inject(ToastService);
   readonly dialog = inject(MatDialog);
 
   name = new FormControl<string>('');
-  city = new FormControl<string>('');
+  category = new FormControl<string>('');
 
   displayedColumns = [
     'name',
@@ -64,6 +72,8 @@ export class ProductsListComponent implements AfterViewInit {
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatTable) table!: MatTable<ProductDto>;
 
+  ngOnInit(): void {}
+
   ngAfterViewInit(): void {
     this.dataSource = new ProductsTableDataSource(
       this.productsService,
@@ -75,10 +85,6 @@ export class ProductsListComponent implements AfterViewInit {
       next: (res) => (this.paginator.length = res),
     });
     this.dataSource.loadProducts();
-
-    this.city.valueChanges.subscribe({
-      next: (res) => console.log(res),
-    });
   }
 
   create() {
@@ -138,11 +144,11 @@ export class ProductsListComponent implements AfterViewInit {
     });
   }
 
-  cities = [
-    { name: 'New York', code: 'NY' },
-    { name: 'Rome', code: 'RM' },
-    { name: 'London', code: 'LDN' },
-    { name: 'Istanbul', code: 'IST' },
-    { name: 'Paris', code: 'PRS' },
+  categories = [
+    { value: 1, label: 'Books' },
+    { value: 2, label: 'Electronics' },
+    { value: 3, label: 'Clothing' },
+    { value: 4, label: 'Furniture' },
+    { value: 5, label: 'Groceries' },
   ];
 }

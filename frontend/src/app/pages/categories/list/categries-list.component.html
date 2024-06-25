@@ -1,24 +1,5 @@
 <div class="my-7 px-16">
-  <div class="flex flex-wrap items-center justify-between mb-4">
-    <mat-form-field class="input-search" appearance="outline">
-      <mat-label>Search</mat-label>
-      <input matInput />
-    </mat-form-field>
-    <!-- <div class="flex flex-col gap-1">
-      <label for="username">Search</label>
-      <input
-        pInputText
-        id="username"
-        class="border border-gray-300 px-2 py-1"
-        [formControl]="name"
-      />
-    </div> -->
-    <app-autocomplete-form-control
-      [control]="category"
-      [options]="categories"
-      appearance="outline"
-      title="Category"
-    />
+  <div class="flex flex-wrap items-center justify-end mb-4">
     <button (click)="create()" color="primary" mat-fab aria-label="Add icon">
       <mat-icon>add</mat-icon>
     </button>
@@ -31,27 +12,9 @@
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
           <td mat-cell *matCellDef="let row">{{ row.name }}</td>
         </ng-container>
-        <ng-container matColumnDef="manufacturer">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            Manufacturer
-          </th>
-          <td mat-cell *matCellDef="let row">{{ row.manufacturer }}</td>
-        </ng-container>
         <ng-container matColumnDef="description">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
           <td mat-cell *matCellDef="let row">{{ row.description }}</td>
-        </ng-container>
-        <ng-container matColumnDef="category">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Category</th>
-          <td mat-cell *matCellDef="let row">{{ row.category }}</td>
-        </ng-container>
-        <ng-container matColumnDef="quantity">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Quantity</th>
-          <td mat-cell *matCellDef="let row">{{ row.quantity }}</td>
-        </ng-container>
-        <ng-container matColumnDef="price">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Price</th>
-          <td mat-cell *matCellDef="let row">{{ row.price + "$" }}</td>
         </ng-container>
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef>Actions</th>

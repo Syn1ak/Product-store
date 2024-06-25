@@ -6,7 +6,5 @@
     (blur)="updateErrorMessage()"
     required
   />
-  <mat-error *ngIf="this.control.invalid">{{
-    errorMessage()
-  }}</mat-error>
+  <mat-error *ngIf="control.invalid">{{ errorMessage() }}</mat-error>
 </mat-form-field>

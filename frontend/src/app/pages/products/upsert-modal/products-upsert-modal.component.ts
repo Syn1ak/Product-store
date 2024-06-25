@@ -90,6 +90,7 @@ export class ProductsUpsertModalComponent implements OnInit {
   }
 
   submit() {
+    if (this.productForm.invalid) return this.productForm.markAllAsTouched();
     this.dialogRef.close(this.productForm.value);
   }
 }

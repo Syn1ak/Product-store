@@ -1,4 +1,7 @@
-<mat-form-field class="example-full-width">
+<mat-form-field
+  [ngClass]="{ 'error-free': errorFree }"
+  [appearance]="appearance"
+>
   <mat-label>{{ title }}</mat-label>
   <input
     #input
@@ -11,8 +14,11 @@
     (focus)="filter()"
   />
   <mat-autocomplete requireSelection #auto="matAutocomplete">
-    <mat-option *ngFor="let option of options" [value]="option.value">{{
+    <mat-option *ngFor="let option of options" [value]="option.label">{{
       option.label
     }}</mat-option>
   </mat-autocomplete>
+  <mat-error *ngIf="control.invalid">{{
+    errorMessage()
+  }}</mat-error>
 </mat-form-field>

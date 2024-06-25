@@ -24,6 +24,9 @@ export class InputFormControlComponent {
       this.errorMessage.set('You must enter a value');
     } else if (this.control.hasError('email')) {
       this.errorMessage.set('Not a valid email');
+    } else if (this.control.hasError('min')) {
+      const minValue = this.control.getError('min').min;
+      this.errorMessage.set(`Value must be grater than ${minValue}`);
     } else {
       this.errorMessage.set('');
     }

@@ -1,5 +1,10 @@
 export interface CategoryDto {
-  id: number;
+  id?: number;
   name: string;
   description: string;
+}
+
+export interface CategoryModalDto {
+  title: string;
+  category?: CategoryDto;
 }
