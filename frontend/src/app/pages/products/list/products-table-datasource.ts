@@ -19,7 +19,7 @@ export class ProductsTableDataSource extends DataSource<ProductDto> {
   constructor(
     private productsService: ProductsService,
     public paginator: MatPaginator,
-    public sort: MatSort
+    public sort: MatSort,
   ) {
     super();
   }
@@ -48,10 +48,10 @@ export class ProductsTableDataSource extends DataSource<ProductDto> {
     this.totalProductsSubject.complete();
   }
 
-  loadProducts() {
+  loadProducts(name?: string | null, categoryId?: number | null) {
     this.isLoadingSubject.next(true);
     this.productsService
-      .fetchProducts()
+      .fetchProducts(name, categoryId)
       .pipe(
         catchError(() => of([])),
         finalize(() => this.isLoadingSubject.next(false))
@@ -84,8 +84,8 @@ export class ProductsTableDataSource extends DataSource<ProductDto> {
       switch (this.sort?.active) {
         case 'name':
           return compare(a.name, b.name, isAsc);
-        case 'manufacturer':
-          return compare(a.manufacturer, b.manufacturer, isAsc);
+        case 'producer':
+          return compare(a.producer, b.producer, isAsc);
         case 'description':
           return compare(a.description, b.description, isAsc);
         case 'category':

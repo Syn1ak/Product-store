@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, signal } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Component, OnInit, inject, signal } from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
+import { AuthService } from '../core/services/auth.service';
 
 @Component({
   selector: 'app-nav-bar',
@@ -9,7 +10,21 @@ import { RouterModule } from '@angular/router';
   templateUrl: './nav-bar.component.html',
   styleUrl: './nav-bar.component.scss',
 })
-export class NavBarComponent {
+export class NavBarComponent implements OnInit {
+  public authService = inject(AuthService);
+  private router = inject(Router);
+
+  ngOnInit(): void {
+    const user = localStorage.getItem('user');
+    if (!user) return;
+    this.authService.login(JSON.parse(user)).subscribe({
+      next: (token: string) => {
+        localStorage.setItem('token', token);
+        this.router.navigate(['/products']);
+      },
+    });
+  }
+
   mobileMenuOpen = signal<boolean>(false);
 
   toogleMobileMenu() {
@@ -18,5 +33,11 @@ export class NavBarComponent {
 
   classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ');
+  }
+
+  logout() {
+    localStorage.removeItem('token');
+    this.authService.logout();
+    this.router.navigate(['/login']);
   }
 }

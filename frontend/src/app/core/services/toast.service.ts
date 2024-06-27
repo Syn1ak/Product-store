@@ -9,11 +9,16 @@ import { ErrorDto } from '../types/ErrorDto';
 export default class ToastService {
   private toast = inject(MessageService);
 
+  // error: (err: ErrorDto) => this.error(err.message),
   decorateRequest<T>(func: Observable<T>, successMsg: string = '') {
     return func.pipe(
       tap({
         next: () => this.success(successMsg),
-        error: (err: ErrorDto) => this.error(err.message),
+        error: (err: string) => {
+          console.log(err);
+
+          this.error(err);
+        },
       })
     );
   }

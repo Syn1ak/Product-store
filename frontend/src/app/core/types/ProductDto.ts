@@ -1,6 +1,7 @@
 export interface ProductDto {
+  id?: number;
   name: string;
-  manufacturer: string;
+  producer: string;
   description: string;
   quantity: number;
   price: number;

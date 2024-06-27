@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ViewChild, inject } from '@angular/core';
+import { AfterViewInit, Component, DestroyRef, ViewChild, inject } from '@angular/core';
 import { MatTableModule, MatTable } from '@angular/material/table';
 import { MatPaginatorModule, MatPaginator } from '@angular/material/paginator';
 import { MatSortModule, MatSort } from '@angular/material/sort';
@@ -6,7 +6,7 @@ import { CategoryDto } from '../../../core/types/CategoryDto';
 import { CategoriesTableDataSource } from './categries-table-datasource';
 import { Subscription } from 'rxjs';
 import { CategoriesService } from '../service/categories.service';
-import ToastService from '../../../core/services/ToastService';
+import ToastService from '../../../core/services/toast.service';
 import { MatDialog } from '@angular/material/dialog';
 import { CategoriesUpsertModalComponent } from '../upsert-modal/categories-upsert-modal.component';
 import { DeleteModalComponent } from '../../../shared/modals/delete-modal/delete-modal.component';

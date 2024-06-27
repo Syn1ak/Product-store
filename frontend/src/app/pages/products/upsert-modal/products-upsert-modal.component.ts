@@ -56,7 +56,7 @@ export class ProductsUpsertModalComponent implements OnInit {
 
   productForm = new FormGroup<ControlsOf<ProductDto>>({
     name: new FormControl<string>('', Validators.required),
-    manufacturer: new FormControl<string>('', Validators.required),
+    producer: new FormControl<string>('', Validators.required),
     description: new FormControl<string>('', Validators.required),
     quantity: new FormControl<number>(0, [
       Validators.required,
@@ -73,11 +73,11 @@ export class ProductsUpsertModalComponent implements OnInit {
     });
     this.title = this.data.title;
     if (!this.data.product) return;
-    const { name, manufacturer, description, quantity, price, category } =
+    const { name, producer, description, quantity, price, category } =
       this.data.product;
     this.productForm.setValue({
       name,
-      manufacturer,
+      producer,
       description,
       quantity,
       price,
@@ -91,6 +91,18 @@ export class ProductsUpsertModalComponent implements OnInit {
 
   submit() {
     if (this.productForm.invalid) return this.productForm.markAllAsTouched();
-    this.dialogRef.close(this.productForm.value);
+    const { category, description, name, price, producer, quantity } =
+      this.productForm.value;
+    const categoryOption = this.categoriesOptions.find(
+      (item) => item.label === category
+    );
+    this.dialogRef.close({
+      category: categoryOption?.value,
+      description,
+      name,
+      price,
+      producer,
+      quantity,
+    });
   }
 }
