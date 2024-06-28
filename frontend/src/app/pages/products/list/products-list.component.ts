@@ -118,9 +118,9 @@ export class ProductsListComponent implements OnInit, AfterViewInit {
     this.toast.decorateError(dialogRef.afterClosed()).subscribe({
       next: (res: number) => {
         if (!res) return;
-        let newQuantity = +item.quantity;
-        newQuantity += res;
-        const { name, producer, category, description, price, quantity } = item;
+        let newQuantity: number = +item.quantity;
+        newQuantity = newQuantity + res;
+        const { name, producer, category, description, price } = item;
         const categoryOption = this.categoriesOptions.find(
           (item) => item.label === category
         );
