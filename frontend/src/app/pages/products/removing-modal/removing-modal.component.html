@@ -1,0 +1,10 @@
+<h2 mat-dialog-title>Remove quantiy</h2>
+<mat-dialog-content>
+  <app-input-form-control [control]="amount" title="Product name" />
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button color="secondary" (click)="close()">Cancel</button>
+  <button mat-button color="primary" (click)="submit()" cdkFocusInitial>
+    Ok
+  </button>
+</mat-dialog-actions>

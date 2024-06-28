@@ -29,6 +29,8 @@ import ToastService from '../../../core/services/toast.service';
 import { AutocompleteFormControlComponent } from '../../../shared/form-controls/autocomplete-form-control/autocomplete-form-control.component';
 import { OptionList } from '../../../core/types/OptionList';
 import { CategoriesService } from '../../categories/service/categories.service';
+import { AdditionModalComponent } from '../addition-modal/addition-modal.component';
+import { RemovingModalComponent } from '../removing-modal/removing-modal.component';
 
 @Component({
   selector: 'app-products-list',
@@ -107,6 +109,44 @@ export class ProductsListComponent implements OnInit, AfterViewInit {
           (item) => item.label === category
         );
         this.dataSource.loadProducts(name, categoryOption?.value);
+      },
+    });
+  }
+
+  increase(item: ProductDto) {
+    const dialogRef = this.dialog.open(AdditionModalComponent);
+    this.toast.decorateError(dialogRef.afterClosed()).subscribe({
+      next: (res: number) => {
+        if (!res) return;
+        item.quantity += res;
+        this.toast
+          .decorateRequest(
+            this.productsService.updateProduct(item.id!, item),
+            'Quantity was increase!'
+          )
+          .subscribe({
+            next: () => this.dataSource.loadProducts(),
+          });
+      },
+    });
+  }
+
+  decrease(item: ProductDto) {
+    const dialogRef = this.dialog.open(RemovingModalComponent, {
+      data: { title: '', product: item },
+    });
+    this.toast.decorateError(dialogRef.afterClosed()).subscribe({
+      next: (res: number) => {
+        if (!res) return;
+        item.quantity -= res;
+        this.toast
+          .decorateRequest(
+            this.productsService.updateProduct(item.id!, item),
+            'Quantity was decrease!'
+          )
+          .subscribe({
+            next: () => this.dataSource.loadProducts(),
+          });
       },
     });
   }
