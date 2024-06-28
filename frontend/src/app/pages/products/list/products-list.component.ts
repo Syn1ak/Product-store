@@ -72,6 +72,7 @@ export class ProductsListComponent implements OnInit, AfterViewInit {
     'category',
     'quantity',
     'price',
+    'total-price',
     'actions',
   ];
   dataSource!: ProductsTableDataSource;
