@@ -118,8 +118,7 @@ export class ProductsListComponent implements OnInit, AfterViewInit {
     this.toast.decorateError(dialogRef.afterClosed()).subscribe({
       next: (res: number) => {
         if (!res) return;
-        let newQuantity: number = +item.quantity;
-        newQuantity = newQuantity + res;
+        const newQuantity: number = item.quantity + res;
         const { name, producer, category, description, price } = item;
         const categoryOption = this.categoriesOptions.find(
           (item) => item.label === category
@@ -132,6 +131,8 @@ export class ProductsListComponent implements OnInit, AfterViewInit {
           price,
           quantity: newQuantity,
         };
+        console.log('LOGG', view);
+
         this.toast
           .decorateRequest(
             this.productsService.updateProduct(item.id!, view),
