@@ -119,9 +119,21 @@ export class ProductsListComponent implements OnInit, AfterViewInit {
       next: (res: number) => {
         if (!res) return;
         item.quantity += res;
+        const { name, producer, category, description, price, quantity } = item;
+        const categoryOption = this.categoriesOptions.find(
+          (item) => item.label === category
+        );
+        const view = {
+          name,
+          producer,
+          categoryId: categoryOption?.value,
+          description,
+          price,
+          quantity,
+        };
         this.toast
           .decorateRequest(
-            this.productsService.updateProduct(item.id!, item),
+            this.productsService.updateProduct(item.id!, view),
             'Quantity was increase!'
           )
           .subscribe({
@@ -139,9 +151,21 @@ export class ProductsListComponent implements OnInit, AfterViewInit {
       next: (res: number) => {
         if (!res) return;
         item.quantity -= res;
+        const { name, producer, category, description, price, quantity } = item;
+        const categoryOption = this.categoriesOptions.find(
+          (item) => item.label === category
+        );
+        const view = {
+          name,
+          producer,
+          categoryId: categoryOption?.value,
+          description,
+          price,
+          quantity,
+        };
         this.toast
           .decorateRequest(
-            this.productsService.updateProduct(item.id!, item),
+            this.productsService.updateProduct(item.id!, view),
             'Quantity was decrease!'
           )
           .subscribe({
