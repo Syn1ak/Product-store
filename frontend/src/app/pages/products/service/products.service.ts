@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Observable } from 'rxjs';
+import {catchError, Observable} from 'rxjs';
 import { ProductDto } from '../../../core/types/ProductDto';
 import { api } from '../../../core/api';
 
@@ -30,16 +30,30 @@ export class ProductsService {
   createProduct(item: any) {
     return this.http.put<number>(`${api}/product`, {
       ...item,
-    });
+    })
+      .pipe(
+        catchError((err) => {
+          throw err.error;
+        })
+      );
   }
 
   deleteProduct(id: number) {
-    return this.http.delete<boolean>(`${api}/product/${id}`);
+    return this.http.delete<boolean>(`${api}/product/${id}`)
+      .pipe(
+        catchError((err) => {
+          throw err.error;
+        })
+      );
   }
 
   updateProduct(id: number, item: any) {
     return this.http.post<boolean>(`${api}/product/${id}`, {
       ...item,
-    });
+    }).pipe(
+      catchError((err) => {
+        throw err.error;
+      })
+    );
   }
 }

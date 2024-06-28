@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import {Observable, map, catchError} from 'rxjs';
 import { OptionList } from '../../../core/types/OptionList';
 import { CategoryDto } from '../../../core/types/CategoryDto';
 import { HttpClient } from '@angular/common/http';
@@ -27,18 +27,34 @@ export class CategoriesService {
   }
 
   createCategory(item: CategoryDto) {
-    return this.http.put<number>(`${api}/category`, {
-      ...item,
-    });
+    return this.http
+      .put<number>(`${api}/category`, {
+        ...item,
+      })
+      .pipe(
+        catchError((err) => {
+          throw err.error;
+        })
+      );
   }
 
   deleteCategory(id: number) {
-    return this.http.delete<boolean>(`${api}/category/${id}`);
+    return this.http.delete<boolean>(`${api}/category/${id}`)
+      .pipe(
+        catchError((err) => {
+          throw err.error;
+        })
+      );
   }
 
   updateCategory(id: number, item: CategoryDto) {
     return this.http.post<boolean>(`${api}/category/${id}`, {
       ...item,
-    });
+    })
+      .pipe(
+        catchError((err) => {
+          throw err.error;
+        })
+      );
   }
 }
