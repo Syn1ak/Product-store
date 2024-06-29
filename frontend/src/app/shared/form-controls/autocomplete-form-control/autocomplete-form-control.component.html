@@ -8,7 +8,7 @@
     type="text"
     placeholder="Pick one"
     matInput
-    [formControl]="control"
+    [value]="getValue()"
     [matAutocomplete]="auto"
     (input)="filter()"
     (focus)="filter()"

@@ -132,7 +132,6 @@ export class ProductsListComponent implements OnInit, AfterViewInit {
           price,
           quantity,
         };
-        console.log('LOGG', view);
 
         this.toast
           .decorateRequest(

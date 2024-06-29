@@ -51,6 +51,11 @@ export class AutocompleteFormControlComponent implements OnInit {
     );
   }
 
+  getValue() {
+    const value: string = this.control.value;
+    return this.options.find((item) => item.label == value)?.label ?? '';
+  }
+
   updateErrorMessage() {
     console.log(this.control.errors);
 
