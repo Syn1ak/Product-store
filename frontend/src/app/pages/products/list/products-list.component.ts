@@ -31,6 +31,7 @@ import { OptionList } from '../../../core/types/OptionList';
 import { CategoriesService } from '../../categories/service/categories.service';
 import { AdditionModalComponent } from '../addition-modal/addition-modal.component';
 import { RemovingModalComponent } from '../removing-modal/removing-modal.component';
+import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 
 @Component({
   selector: 'app-products-list',
@@ -85,7 +86,9 @@ export class ProductsListComponent implements OnInit, AfterViewInit {
   categoriesOptions: OptionList[] = [];
 
   ngOnInit(): void {
-    this.categoriesService.fetchCategoriesOptionList().subscribe({
+    this.categoriesService.fetchCategoriesOptionList()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
       next: (res) => (this.categoriesOptions = res),
       error: (err) => console.log(err),
     });
@@ -132,7 +135,6 @@ export class ProductsListComponent implements OnInit, AfterViewInit {
           price,
           quantity,
         };
-
         this.toast
           .decorateRequest(
             this.productsService.updateProduct(item.id!, view),
@@ -166,7 +168,6 @@ export class ProductsListComponent implements OnInit, AfterViewInit {
           quantity,
         };
 
-        console.log('LOGG', view);
         this.toast
           .decorateRequest(
             this.productsService.updateProduct(item.id!, view),

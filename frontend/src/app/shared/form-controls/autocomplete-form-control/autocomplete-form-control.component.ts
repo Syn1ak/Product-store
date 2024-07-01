@@ -53,7 +53,6 @@ export class AutocompleteFormControlComponent implements OnInit {
 
   updateErrorMessage() {
     console.log(this.control.errors);
-
     if (this.control.hasError('required')) {
       this.errorMessage.set('You must enter a value');
     } else {

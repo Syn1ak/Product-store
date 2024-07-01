@@ -11,7 +11,6 @@ export class ProductsTableDataSource extends DataSource<ProductDto> {
   private isLoadingSubject = new BehaviorSubject<boolean>(false);
   private totalProductsSubject = new BehaviorSubject<number>(0);
 
-  public loading$ = this.isLoadingSubject.asObservable();
   public length$ = this.totalProductsSubject.asObservable();
 
   products: ProductDto[] = [];
